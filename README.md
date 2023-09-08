@@ -14,8 +14,10 @@
 
 Release:
 `make`
+
 Debug:
 `make debug`
+
 Test (debug версия, которая сразу запускается)
 `make test`
 
@@ -24,6 +26,7 @@ Test (debug версия, которая сразу запускается)
 
 Release:
 `./build/main`
+
 Debug:
 `./debug_build/main`
 
