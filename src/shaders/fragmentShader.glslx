@@ -2,7 +2,19 @@
 
 out vec3 color;
 
+in float triangleShading;
+
+const float near = 0.1;
+const float far = 300.0;
+
+float LinearizeDepth(float depth) {
+    float z = depth * 2.0 - 1.0; // back to NDC 
+    return (2.0 * near * far) / (far + near - z * (far - near));	
+}
+
 void main() {
-    vec2 position = gl_FragCoord.xy / vec2(1000, 1000);
-    color = vec3(position.x, position.y, 0);
+    //if (gl_FrontFacing) {
+        float col = (1.0 - LinearizeDepth(gl_FragCoord.z) / far) * (0.8 * triangleShading + 0.1);
+        color = vec3(col, col, 0);
+    //}
 }

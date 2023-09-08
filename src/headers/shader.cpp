@@ -43,11 +43,12 @@ GLuint loadShader(const char *shaderFilePath, GLuint _shaderType) {
     return shaderID;
 }
 
-GLuint createShaderProgram(GLuint vertexShaderID, GLuint fragmentShaderID) {
+GLuint createShaderProgram(std::vector<GLuint> shaderIDs) {
     // link program
     GLuint programID = glCreateProgram();
-    glAttachShader(programID, vertexShaderID);
-    glAttachShader(programID, fragmentShaderID);
+    for (auto shaderID : shaderIDs) {
+        glAttachShader(programID, shaderID);
+    }
     glLinkProgram(programID);
 
     GLint Result = GL_FALSE;
@@ -63,11 +64,10 @@ GLuint createShaderProgram(GLuint vertexShaderID, GLuint fragmentShaderID) {
         printf("%s\n", &ProgramErrorMessage[0]);
     }
 
-    glDetachShader(programID, vertexShaderID);
-    glDetachShader(programID, fragmentShaderID);
-
-    glDeleteShader(vertexShaderID);
-    glDeleteShader(fragmentShaderID);
+    for (auto shaderID : shaderIDs) {
+        glDetachShader(programID, shaderID);
+        glDeleteShader(shaderID);
+    }
 
     return programID;
 }
